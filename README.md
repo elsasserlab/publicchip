@@ -10,4 +10,4 @@ Requires: bowtie2, picardtools, deeptools, igvtools, fastqc, samtools, bedtools.
 
 Accession list data file is provided as part of the supplementary material of this publication.
 
-Extra code used for peak calling and annotation is provided. This was run on a SLURM environment, so it's SLURM-based.
+Extra code used for peak calling and annotation is provided for documentation purposes.
