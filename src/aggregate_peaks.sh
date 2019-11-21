@@ -28,21 +28,10 @@ aggregate() {
 
     cat "unique_1.bed" "unique_2.bed" "unique_3.bed" > "all_unique.bed"
 
-    # Sanity check, these two numbers should be equal
-    # NOTE: They are NOT. Because book-ended things are merged. So it should be
-    # similar, or a little smaller the second number
-    # wc "all_unique.bed"
-    # bedtools merge -i <( bedtools sort -i "all_unique.bed" ) | wc
-
-    # Here merging overlaps could have undesired effects. We are operating on a discrete way
-    # so we could subtract more than we want
     bedtools sort -i <( cat "${prefix}1${suffix}" "${prefix}2${suffix}" "${prefix}3${suffix}" ) > "all.bed"
 
     # Subtract all regions that are only in one replicate. Merge the overlapping ones.
     bedtools merge -i <( bedtools subtract -A -a "all.bed" -b "all_unique.bed" ) > "${outfile}"
-
-    # TODO: Keep the smallest - cluster + groupby (aggregating by min length per cluster) somehow?
-    # bedtools cluster -i "all_2_out_of_3.bed" > "all_2_out_of_3_clusters.bed"
 
     rm "all.bed"
     rm "all_unique.bed"
@@ -100,27 +89,10 @@ main() {
     peaktype="broadPeak"
 
     bedpath="../data/reference/bed"
-    iapez="${bedpath}/IAPEz.bed"
-    enhancers="${bedpath}/ESC_Enhancers_CruzMolina.mm9.bed"
-    repbase="${bedpath}/RepBase_clusters_2kb.bed"
-
+    
     for timepoint in 00h 03h 06h 12h; do
         aggregate "${peaksdir}" "ES" "${timepoint}" "${outdir}/ES_H33_${timepoint}_reliable.${peaktype}" "${peaktype}"
         aggregate "${peaksdir}" "NS" "${timepoint}" "${outdir}/NS_H33_${timepoint}_reliable.${peaktype}" "${peaktype}"
-    done
-
-    out_iapez="${outdir}/totals_iapez.txt"
-    out_enhancers="${outdir}/totals_enhancers.txt"
-    out_repbase="${outdir}/totals_repbase.txt"
-
-    echo -e "Timepoint\tTotal\tTotal_ES (IAP)\tTotal_NS (IAP)\tES_only (IAP)\tNS_only (IAP)\tCommon (IAP)" > "${out_iapez}"
-    echo -e "Timepoint\tTotal\tTotal_ES (Enh)\tTotal_NS (Enh)\tES_only (Enh)\tNS_only (Enh)\tCommon (Enh)" > "${out_enhancers}"
-    echo -e "Timepoint\tTotal\tTotal_ES (Rep)\tTotal_NS (Rep)\tES_only (Rep)\tNS_only (Rep)\tCommon (Rep)" > "${out_repbase}"
-
-    for timepoint in 00h 03h 06h 12h; do
-        intersect_with_bed "${outdir}/ES_H33_${timepoint}_reliable.${peaktype}" "${outdir}/NS_H33_${timepoint}_reliable.${peaktype}" "${iapez}" "${out_iapez}" "${timepoint}"
-        intersect_with_bed "${outdir}/ES_H33_${timepoint}_reliable.${peaktype}" "${outdir}/NS_H33_${timepoint}_reliable.${peaktype}" "${enhancers}" "${out_enhancers}" "${timepoint}"
-        intersect_with_bed "${outdir}/ES_H33_${timepoint}_reliable.${peaktype}" "${outdir}/NS_H33_${timepoint}_reliable.${peaktype}" "${repbase}" "${out_repbase}" "${timepoint}"
     done
 
 }
