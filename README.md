@@ -1,13 +1,73 @@
-## Supplementary code for public ChIP data analysis.
+# Supplementary code for public ChIP data analysis.
 
-A Nextflow pipeline is provided to re-run the analysis. If you want to run it yourself, you need to fill out the `nextflow.config` file with paths to bowtie reference index for mm9 and your reference genome. Also output directory and work directory can be provided.
+A Nextflow pipeline along with extra scripts used to generate the main data outputs
+used in this publications is provided here for documentation purposes.
+
+## System requirements
+
+This data analysis has been run under a HPC environment (UPPMAX) that runs 
+CentOS Linux 7 (Core) and SLURM scheduling. However, it should be straightforward
+to run a local version of the necessary scripts, just running the `sbatch` files directly.
+
+Tools used and versions:
+
+nextflow (version 19.07.0 build 5106)
+bowtie2 (v 2.3.5.1)
+deepTools (v 3.1.0)
+sratools (v 2.9.6-1)
+MACS2 (v 2.1.2)
+bwtool (v1.0)
+bedtools (v2.27.1)
+matplotlib (v 3.1.1) 
+
+
+## Installation guide
+
+The software provided here is not a package and it's therefore not intended for
+installation. It relies heavily on the standard wide-used tools mentioned above and
+ can be run as long as the required tools are installed. It is available 
+for transparency and reproducibility reasons. 
+
+A Nextflow pipeline is provided to re-run the analysis. If you want to run it
+yourself, you need to fill out the `nextflow.config` file with paths to bowtie
+reference index for mm9 and reference genome. Also output directory
+and work directory can be provided.
 
 Then you should be able to run it using nextflow: ::
 
      nextflow run public_chip.nf -c nextflow.config --acclist <your_acclistfile> 
 
-Requires: bowtie2, picardtools, deeptools, igvtools, fastqc, samtools, bedtools.
+Running the nextflow pipeline will give you the main bigwig files also provided as
+main data in our publication.
 
-Accession list data file is provided as part of the supplementary material of this publication.
+Rest of intermediate relevant files (peaks calling, annotation) are processed
+through the corresponding `sh` scripts.
 
-Extra code used for peak calling and annotation is provided for documentation purposes.
+## Running the nextflow pipeline locally
+
+You'll need the accession file list (as provided in the supplementary data of
+this publication) and fill out corresponding `nextflow.config` values:
+
+params {
+    base_dir = './'
+    acclist = 'acclist.csv'
+    bw_index = 'path to bowtie index of mm9 genome'
+    refdir = 'path to mm9 reference genome'
+    genomesize = 2150570000
+    max_threads = '12'
+    binsize = 5000
+}
+
+profiles {
+    standard {
+        process.executor = 'local'
+    }
+}
+
+## Running a small test example
+
+This workflow processes lines in the accession list one by one. You can check
+the kind of output provided just by by providing only the first n lines in the
+.csv accession list.
+
+
