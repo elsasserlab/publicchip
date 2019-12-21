@@ -82,6 +82,8 @@ per dataset:
 - `bam`: Bowtie produced alignments.
 - `tdf`: Alternative visualization files. Can be opened in IGV.
 
+It will also generate logging information on the pipeline run.
+
 Expected running times rely heavily on the type of machine, sizes of datasets,
 internet connection and queuing status in case of running this on a HPC system.
 
