@@ -11,14 +11,15 @@ to run a local version of the necessary scripts, just running the `sbatch` files
 
 Tools used and versions:
 
-nextflow (version 19.07.0 build 5106)
-bowtie2 (v 2.3.5.1)
-deepTools (v 3.1.0)
-sratools (v 2.9.6-1)
-MACS2 (v 2.1.2)
-bwtool (v1.0)
-bedtools (v2.27.1)
-matplotlib (v 3.1.1) 
+
+    nextflow (version 19.07.0 build 5106)
+    bowtie2 (v 2.3.5.1)
+    deepTools (v 3.1.0)
+    sratools (v 2.9.6-1)
+    MACS2 (v 2.1.2)
+    bwtool (v1.0)
+    bedtools (v2.27.1)
+    matplotlib (v 3.1.1) 
 
 
 ## Installation guide
@@ -46,23 +47,24 @@ through the corresponding `sh` scripts.
 ## Running the nextflow pipeline locally
 
 You'll need the accession file list (as provided in the supplementary data of
-this publication) and fill out corresponding `nextflow.config` values:
+this publication) and fill out corresponding `nextflow.config` values (an example 
+`nextflow.config` file under `sample`):
 
-params {
-    base_dir = './'
-    acclist = 'acclist.csv'
-    bw_index = 'path to bowtie index of mm9 genome'
-    refdir = 'path to mm9 reference genome'
-    genomesize = 2150570000
-    max_threads = '12'
-    binsize = 5000
-}
-
-profiles {
-    standard {
-        process.executor = 'local'
+    params {
+        base_dir = './'
+        acclist = 'acclist.csv'
+        bw_index = 'path to bowtie index of mm9 genome'
+        refdir = 'path to mm9 reference genome'
+        genomesize = 2150570000
+        max_threads = '12'
+        binsize = 5000
     }
-}
+
+    profiles {
+        standard {
+            process.executor = 'local'
+        }
+    }
 
 ## Running a small test example
 
