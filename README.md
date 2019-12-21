@@ -72,4 +72,19 @@ This workflow processes lines in the accession list one by one. You can check
 the kind of output provided just by by providing only the first n lines in the
 .csv accession list.
 
+## Output 
+
+Nextflow will generate an `intermediate` folder with corresponding subfolders
+per dataset:
+
+- `bw`: Bigwig files
+- `bins`: Bed files with 5kb bins signal values.
+- `bam`: Bowtie produced alignments.
+- `tdf`: Alternative visualization files. Can be opened in IGV.
+
+Expected running times rely heavily on the type of machine, sizes of datasets,
+internet connection and queuing status in case of running this on a HPC system.
+
+
+
 
