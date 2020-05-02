@@ -1,7 +1,8 @@
 #!/usr/bin/env nextflow
 
-acclist = params.acclist
+// Variant of the pipeline to process single-end datasets
 
+acclist = params.acclist
 base_dir = params.base_dir
 bw_index = params.bw_index
 reference_dir = params.refdir
@@ -11,11 +12,12 @@ max_threads = params.max_threads
 Channel
     .fromPath(acclist)
     .splitCsv(by:1, sep:'\t', skip:1,
+        
               header: ['dataset_id', 'gsm_id', 'description', 'filename', 'run_id', 'sra_filename', 'input'])
     .map { item -> [ item['dataset_id'], item['run_id'], item['filename'], item['input'] ] }
     .set { accession_ch }
 
-process fastqDump {
+process download {
     publishDir "${base_dir}/intermediate/fastq/${dataset_id}", mode:'symlink'
     module 'bioinfo-tools:sratools'
     cpus = 8
@@ -24,7 +26,7 @@ process fastqDump {
     set dataset_id, run_id, file_descriptor, corr_input from accession_ch
 
     output:
-    set dataset_id, file_descriptor, file('*1.fastq.gz'), file('*2.fastq.gz') into fastq_ch, map_ch
+    set dataset_id, file_descriptor, file('*.fastq.gz') into map_ch
 
     script:
     // Replace with this line for testing (only dumps a few reads per file)
@@ -38,30 +40,11 @@ process fastqDump {
 
     """
     prefetch ${run_id}
-    fastq-dump --outdir . --skip-technical --readids --read-filter pass --dumpbase --split-3 --clip `srapath ${run_id}` --gzip
+    fastq-dump --outdir . --skip-technical --readids --read-filter pass --dumpbase --clip `srapath ${run_id}` -N 10000 -X 20000 --gzip
 
-    mv *1.fastq.gz ${file_descriptor}_1.fastq.gz
-    mv *2.fastq.gz ${file_descriptor}_2.fastq.gz
+    mv *.fastq.gz ${file_descriptor}.fastq.gz
+   
     rm `srapath ${run_id}`
-
-    """
-}
-
-process fastQC {
-    publishDir "${base_dir}/reports/${dataset_id}/qc", mode:'copy'
-    module 'bioinfo-tools:FastQC'
-
-    input:
-    set dataset_id, prefix, fastq_r1, fastq_r2 from fastq_ch
-
-    output:
-    set dataset_id, file('*.html') into fastqc_ch
-
-    script:
-    """
-    fastqc ${fastq_r1} -o .
-    mv *.html ${prefix}_fastqc.html
-    rm *.zip
     """
 }
 
@@ -71,61 +54,16 @@ process mapReads {
     cpus = max_threads
 
     input:
-    set dataset_id, prefix, fastq_r1, fastq_r2 from map_ch
+    set dataset_id, prefix, fastq_r1 from map_ch
 
     output:
-    set dataset_id, prefix, file("*.bam") into mapqc_ch, bam_ch
-    set dataset_id, prefix, file("${prefix}_bowtie_stats.log") into bowtie_ch
+    set dataset_id, prefix, file("*.bam") into bam_ch
 
     script:
     """
-    bowtie2 -p ${max_threads} -x ${bw_index}/mm9 -q -1 ${fastq_r1} -2 ${fastq_r2} --fast 2> ${prefix}_bowtie_stats.log | samtools view -bS -F 4  - | samtools sort -o ${prefix}.bam -
+    bowtie2 -p ${max_threads} -x ${bw_index}/mm9 -q -U ${fastq_r1} --fast 2> ${prefix}_bowtie_stats.log | samtools view -bS -F 4  - | samtools sort -o ${prefix}.bam -
     """
 }
-
-process mapQC {
-    publishDir "${base_dir}/reports/${dataset_id}/mapqc", mode:'copy'
-    module 'bioinfo-tools:samtools:picard'
-
-    // This step runs out of memory easily
-    cpus 8
-
-    input:
-    set dataset_id, prefix, bamfile from mapqc_ch
-    set dataset_id, prefix, bowtiestats from bowtie_ch
-
-    output:
-    set dataset_id, prefix, file('*idxstats.txt'), file('*flagstat.txt'), file('*MarkDuplicates.txt'), file('*insert_sizes.txt'), file('*insert_sizes.pdf') into mapqcstats_ch
-    set dataset_id, file('dupsline.txt') into dupstats_ch
-    set dataset_id, file('fragsize.txt') into fragstats_ch
-    set dataset_id, bowtiestats
-
-    script:
-    """
-    samtools index ${bamfile} -@ 4
-    samtools flagstat ${bamfile} > ${prefix}_flagstat.txt
-    samtools idxstats ${bamfile} > ${prefix}_idxstats.txt
-
-    java -jar \$PICARD_HOME/picard.jar MarkDuplicates REMOVE_DUPLICATES=TRUE I=${bamfile} O=dedup.bam M=${prefix}_MarkDuplicates.txt
-    java -jar \$PICARD_HOME/picard.jar CollectInsertSizeMetrics I=${bamfile} O=${prefix}_insert_sizes.txt H=${prefix}_insert_sizes.pdf M=0.5 STOP_AFTER=10000000
-
-    echo "${prefix} `grep -i unk ${prefix}_MarkDuplicates.txt | cut -f 2-10`" > dupsline.txt
-    echo "${prefix} `grep FR ${prefix}_insert_sizes.txt | cut -f 1`" > fragsize.txt
-
-    rm dedup.bam
-    """
-}
-
-dupstats_ch
-    .collectFile(storeDir: "${base_dir}/reports/", newLine:false) { item ->
-    [ "${item[0]}_picard_dedup.txt", item[1].getText() ]
-}
-
-fragstats_ch
-    .collectFile(storeDir: "${base_dir}/reports/", newLine:false) { item ->
-        [ "${item[0]}_picard_fragment.txt", item[1].getText() ]
-}
-
 
 process cleanUpBAM {
     publishDir "${base_dir}/intermediate/bam/${dataset_id}", mode:'copy'
