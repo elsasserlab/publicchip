@@ -11,7 +11,7 @@ function present_regions() {
     quality=20
 
     # Uniquely mapped reads
-    # samtools view -bq "${quality}" "${bamfile}" > "${uniq_bam_dir}/${basebam}.${quality}.bam"
+    samtools view -bq "${quality}" "${bamfile}" > "${uniq_bam_dir}/${basebam}.${quality}.bam"
 
     # Find reads in the flanks
     bedtools intersect -abam "${uniq_bam_dir}/${basebam}.${quality}.bam" -b "${flankfile}" -f 0.9 -bed -wb | cut -f 13-18 > "IAPEz_intersect_${basebam}.bed"
@@ -22,7 +22,7 @@ function present_regions() {
     # Sort 
     bedtools sort -i "IAPEz_present_${basebam}.tmp.bed" > "${outfile}"
     rm "IAPEz_present_${basebam}.tmp.bed"
-
+    rm "IAPEz_intersect_${basebam}.bed"
 }
 
 
