@@ -87,8 +87,6 @@ main() {
 
     mkdir -p "${outdir}"
     peaktype="broadPeak"
-
-    bedpath="../data/reference/bed"
     
     for timepoint in 00h 03h 06h 12h; do
         aggregate "${peaksdir}" "ES" "${timepoint}" "${outdir}/ES_H33_${timepoint}_reliable.${peaktype}" "${peaktype}"
@@ -97,4 +95,4 @@ main() {
 
 }
 
-main "$@"
+main "../intermediate/peaks/Deaton_2016/aggregated" "../intermediate/peaks/Deaton_2016/"
