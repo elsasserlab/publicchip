@@ -126,10 +126,17 @@ internet connection and queuing status in case of running this on a HPC system.
 Code used to generate the figures on the publication is also available in `src`.
 
 Overall: 
+- Peaks were called using MACS2 on broadPeak with qval = 0.05 for each replicate. 
+The aggregated peak set consists of loci that appear in at least 2 out of the 3
+replicates. These are the `reliable` groups available under `peaks/Deaton_2016/aggregated`.
 - Peak density heatmaps were calculated using `deepTools computeMatrix`. The
 precomputed matrix was then visualized by `peak_density_annotated.py` script. 
 - Average heatmaps were calculated using `rtracklayer` and `GenomicRanges` libraries
 in R. Corresponding scripts are found per-figure in `src`.
+- Some of the profile plots that appear have been calculated with a customized
+version of `ngs.plot.r`. The relevant code is also in `src`. Note that this custom
+version shows the same profile as the original ngsplot, but sets the scale to
+1x normalized values as you would get by looking at the `bw` files.
 - Bin-based plots also calculated in R and scripts for this are provided.
 - Profile plots were mostly calculated by a customized version of ngsplot that
 calculates Y axes as 1x RPGC coverage. These results can also be calcualted by
@@ -138,6 +145,4 @@ seqplots providing the corresponding bigwig and bedfiles.
 This requires the BAM files to be calculated.
 - Venn intersection overlap was calculated by `intervene`, and size proportional 
 venn diagrams using R package `eulerr`.
-
-
 
