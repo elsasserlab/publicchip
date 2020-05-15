@@ -3,7 +3,7 @@
 ## Structure of the repository
 
 - `src`: Contains source code used to perform the analysis in the publication.
-- `doc`: Relevant documentation to help reproduce the analysis. Includes a `Navarro_2020_datasets_metadata.xlsx` table with metadata required to perform the analysis. Additionally, a set of tables `datasets_ebi.csv`, `datasets_se.csv` and `datasets_pe.csv` is available to run with the Nextflow pipeline. 
+- `doc`: Relevant documentation to help reproduce the analysis. Includes a `Navarro_2020_datasets_metadata.xlsx` table with metadata required to perform the analysis. Additionally, a set of tables `datasets_ebi.tsv`, `datasets_se.tsv` and `datasets_pe.tsv` is available to run with the Nextflow pipeline. 
 - `data`: Files used in the analysis that are not a byproduct of its execution (for instance, bed annotations from other publications), or that may be useful per se, like peak annotations.
 
 After running some of the analyses, you will end up with extra directories:
