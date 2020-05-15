@@ -5,6 +5,7 @@
 - `src`: Contains source code used to perform the analysis in the publication.
 - `doc`: Relevant documentation to help reproduce the analysis. Includes a `Navarro_2020_datasets_metadata.xlsx` table with metadata required to perform the analysis. Additionally, a set of tables `datasets_ebi.tsv`, `datasets_se.tsv` and `datasets_pe.tsv` is available to run with the Nextflow pipeline. 
 - `data`: Files used in the analysis that are not a byproduct of its execution (for instance, bed annotations from other publications), or that may be useful per se, like peak annotations.
+- `sample`: A stub `nextflow.config` file to use as a base to reproduce the primary analysis locally.
 
 After running some of the analyses, you will end up with extra directories:
 - `intermediate`: Files generated in the primary analysis that are required for downstream results (main figures of the publication). This includes: bigWig, bam, binned score files, called peaks. Note: Alternatively to running the primary analysis yourself, pre-generated bigwig files and other outputs are available at the data repository attached to this publication.
