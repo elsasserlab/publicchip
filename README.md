@@ -140,8 +140,9 @@ precomputed matrix was then visualized by `peak_density_annotated.py` script.
 in R. Corresponding scripts are found per-figure in `src`.
 - Bin-based plots also calculated in R and scripts for this are provided.
 - Profile plots were mostly calculated by a customized version of ngsplot that
-calculates Y axes as 1x RPGC coverage. These results can also be calculated by
-seqplots providing the corresponding bigwig and bedfiles.
+calculates Y axes as 1x FPGC (Fragments per Genome Content) coverage. Very similar results 
+can also be obtained by seqplots providing the corresponding bigwig and bedfiles, where
+reads were extended to match fragment size in paired-end datasets. 
 - IAP consensus dataset was calculated integrating several datasets `src/run_iap_consensus.sh`.
 This requires the BAM files to be calculated.
 - Venn intersection overlap was calculated by `intervene`, and size proportional 
