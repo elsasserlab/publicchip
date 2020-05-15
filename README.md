@@ -67,6 +67,8 @@ single-end data coming from another sequencing repository. The other versions of
 Running the nextflow pipeline will by default output everything on the `intermediate` directory.
 This can be used to run the rest of the analyses available under `src`.
 
+**Note**: Alternatively to running the primary analysis yourself, pre-generated bigwig files and other outputs, such as IGV sessions with the most relevant tracks, bed annotations and documentation are available at the data repository attached to this publication.
+
 A few more relevant intermediate files (peaks calling and aggregation, annotation) are processed
 through the corresponding `sh` scripts.
 
