@@ -3,11 +3,11 @@
 ## Structure of the repository
 
 - `src`: Contains source code used to perform the analysis in the publication.
-- `doc`: Relevant documentation to help reproduce the analysis. Includes a main table `datasets.csv` with metadata required to perform the primary analysis. This will be available upon publication.
-- `data`: Files used in the analysis that are not a byproduct of its execution.
+- `doc`: Relevant documentation to help reproduce the analysis. Includes a `Navarro_2020_datasets_metadata.xlsx` table with metadata required to perform the analysis. Additionally, a set of tables `datasets_ebi.csv`, `datasets_se.csv` and `datasets_pe.csv` is available to run with the Nextflow pipeline. 
+- `data`: Files used in the analysis that are not a byproduct of its execution (for instance, bed annotations from other publications), or that may be useful per se, like peak annotations.
 
 After running some of the analyses, you will end up with extra directories:
-- `intermediate`: Files generated in the primary analysis that are required for downstream results (main figures of the publication). This includes: bigWig, bam, binned score files, called peaks. Note: Alternatively to running the primary analysis yourself, pre-generated bigwig files will be provided from an alternative source.
+- `intermediate`: Files generated in the primary analysis that are required for downstream results (main figures of the publication). This includes: bigWig, bam, binned score files, called peaks. Note: Alternatively to running the primary analysis yourself, pre-generated bigwig files and other outputs are available at the data repository attached to this publication.
 - `figures`: Output directory where the publication results go.
 
 ## System requirements
@@ -57,7 +57,12 @@ reference index for mm9 and reference genome.
 
 Then you should be able to run it using nextflow: 
 
-     nextflow run public_chip.nf -c nextflow.config --acclist <datasets_file> 
+     nextflow run public_chip.nf -c nextflow.config --acclist doc/datasets_pe.tsv 
+
+**Note**: There are currently three versions of this nextflow pipeline, for running paired-end data, single-end data and
+single-end data coming from another sequencing repository. The other versions of the pipeline run with the table in `doc` that has its matching name as `--acclist`, for example:
+
+    nextflow run public_chip_se.nf -c nextflow.config --acclist doc/datasets_se.tsv
 
 Running the nextflow pipeline will by default output everything on the `intermediate` directory.
 This can be used to run the rest of the analyses available under `src`.
@@ -133,16 +138,12 @@ replicates. These are the `reliable` groups available under `peaks/Deaton_2016/a
 precomputed matrix was then visualized by `peak_density_annotated.py` script. 
 - Average heatmaps were calculated using `rtracklayer` and `GenomicRanges` libraries
 in R. Corresponding scripts are found per-figure in `src`.
-- Some of the profile plots that appear have been calculated with a customized
-version of `ngs.plot.r`. The relevant code is also in `src`. Note that this custom
-version shows the same profile as the original ngsplot, but sets the scale to
-1x normalized values as you would get by looking at the `bw` files.
 - Bin-based plots also calculated in R and scripts for this are provided.
 - Profile plots were mostly calculated by a customized version of ngsplot that
-calculates Y axes as 1x RPGC coverage. These results can also be calcualted by
+calculates Y axes as 1x RPGC coverage. These results can also be calculated by
 seqplots providing the corresponding bigwig and bedfiles.
 - IAP consensus dataset was calculated integrating several datasets `src/run_iap_consensus.sh`.
 This requires the BAM files to be calculated.
 - Venn intersection overlap was calculated by `intervene`, and size proportional 
-venn diagrams using R package `eulerr`.
+euler diagrams using R package `eulerr`.
 
