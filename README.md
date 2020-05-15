@@ -142,7 +142,11 @@ in R. Corresponding scripts are found per-figure in `src`.
 - Profile plots were mostly calculated by a customized version of ngsplot that
 calculates Y axes as 1x FPGC (Fragments per Genome Content) coverage. Very similar results 
 can also be obtained by seqplots providing the corresponding bigwig and bedfiles, where
-reads were extended to match fragment size in paired-end datasets. 
+reads were extended to match fragment size in paired-end datasets. If you want to re-run
+the customized version of ngsplot, you need to download their original source code and
+replace the relevant files with the ones provided. Our customized version includes several
+modes of calculating Y axis. The parameter you need to set is `-M relative`, as opposed to
+`standard` which reproduces ngsplot usual behavior.
 - IAP consensus dataset was calculated integrating several datasets `src/run_iap_consensus.sh`.
 This requires the BAM files to be calculated.
 - Venn intersection overlap was calculated by `intervene`, and size proportional 
