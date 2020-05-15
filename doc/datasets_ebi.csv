@@ -1,0 +1,9 @@
+dataset_id	ebi_id	description	filename	download_link	input	layout
+Sachs_2019	ERR2699917	Sachs2019_ESC_SMARCAD1_KD	Sachs2019_ESC_SMARCAD1_KD	ftp://ftp.sra.ebi.ac.uk/vol1/run/ERR269/ERR2699917/endogenous_SMARCAD1_ChIP_KD.fastq.gz	Sachs2019_ESC_Input_KD	single
+Sachs_2019	ERR2699918	Sachs2019_ESC_SMARCAD1_WT	Sachs2019_ESC_SMARCAD1_WT	ftp://ftp.sra.ebi.ac.uk/vol1/run/ERR269/ERR2699918/endogenous_SMARCAD1_ChIP_wt.fastq.gz	Sachs2019_ESC_Input_wt	single
+Sachs_2019	ERR2699919	Sachs2019_ESC_H3K9me3_wt	Sachs2019_ESC_H3K9me3_wt	ftp://ftp.sra.ebi.ac.uk/vol1/run/ERR269/ERR2699919/H3K9me3_wt.fastq.gz	Sachs2019_ESC_Input_wt	single
+Sachs_2019	ERR2699922	Sachs2019_ESC_Input_KD	Sachs2019_ESC_Input_KD	ftp://ftp.sra.ebi.ac.uk/vol1/run/ERR269/ERR2699922/Input_KD.fastq.gz	-	single
+Sachs_2019	ERR2699923	Sachs2019_ESC_Input_wt	Sachs2019_ESC_Input_wt	ftp://ftp.sra.ebi.ac.uk/vol1/run/ERR269/ERR2699923/Input_wt.fastq.gz	-	single
+Sachs_2019	ERR2702602	Sachs2019_ESC_EMPTY_FLAG	Sachs2019_ESC_EMPTY_FLAG	ftp://ftp.sra.ebi.ac.uk/vol1/run/ERR270/ERR2702602/flag_ChIP_empty_vector.fastq.bz2	Sachs2019_ESC_INPUT_FLAG	single
+Sachs_2019	ERR2702603	Sachs2019_ESC_SMARCAD1_FLAG	Sachs2019_ESC_SMARCAD1_FLAG	ftp://ftp.sra.ebi.ac.uk/vol1/run/ERR270/ERR2702603/flag_ChIP_flagSMARCAD1.fastq.bz2	Sachs2019_ESC_INPUT_FLAG	single
+Sachs_2019	ERR2702604	Sachs2019_ESC_INPUT_FLAG	Sachs2019_ESC_INPUT_FLAG	ftp://ftp.sra.ebi.ac.uk/vol1/run/ERR270/ERR2702604/input_flagSMARCAD1.fastq.bz2	-	single
