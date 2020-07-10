@@ -133,6 +133,11 @@ internet connection and queuing status in case of running this on a HPC system.
 
 Code used to generate the figures on the publication is also available in `src`.
 
+Additionally, data repository attached to this publication contains pre-generated
+bigwig files and also for some of the figures tables with either bin values, 
+bed file mean coverage values, or summarized coverage values. When these tables
+are used to reproduce a plot, corresponding `r` scripts state so.
+
 Overall: 
 - Peaks were called using MACS2 on broadPeak with qval = 0.05 for each replicate. 
 The aggregated peak set consists of loci that appear in at least 2 out of the 3
