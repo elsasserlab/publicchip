@@ -39,7 +39,6 @@ fig.df <- melt(df[, c(bin.id, 'WT_H33_norm', 'Smarcad1KD_H33_norm', 'WT_H3K9me3_
 ggplot(fig.df, aes(x=variable, y=value, color=variable)) +
   geom_boxplot(color="black",outlier.alpha = 0,notch = T) +
   geom_jitter(aes(x=variable, y=value, color=variable), alpha=0.15, size=0.5) +
-  theme_elsasserlab_screen(base_size = 16) +
   ylim(0,25) + 
   xlab('') +
   ylab('ChIP RPGC / Input') +
@@ -80,7 +79,6 @@ fig.df <- melt(df[, c(bin.id, 'WT_H33_norm', 'Smarcad1KD_H33_norm', 'WT_H3K9me3_
 ggplot(fig.df, aes(x=variable, y=value, color=variable)) +
   geom_boxplot(color="black",outlier.alpha = 0,notch = T) +
   geom_jitter(aes(x=variable, y=value, color=variable), alpha=0.15, size=0.5) +
-  theme_elsasserlab_screen(base_size = 16) +
   ylim(0,10) + 
   xlab('') +
   ylab('ChIP RPGC / Input') +

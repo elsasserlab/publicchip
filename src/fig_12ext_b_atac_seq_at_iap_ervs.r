@@ -26,7 +26,6 @@ fig.df <- melt(df, id.vars=bin.id)
 ggplot(fig.df, aes(x=variable, y=value, color=variable)) +
   geom_boxplot(color="black",outlier.alpha = 0,notch = T) +
   geom_jitter(aes(x=variable, y=value, color=variable), alpha=0.15, size=0.5) +
-  theme_elsasserlab_screen(base_size = 16) +
   ylim(0,3) + 
   xlab('') +
   ylab('ChIP RPGC / Input') +
@@ -58,7 +57,6 @@ fig.df <- melt(df, id.vars=bin.id)
 ggplot(fig.df, aes(x=variable, y=value, color=variable)) +
   geom_boxplot(color="black",outlier.alpha = 0,notch = T) +
   geom_jitter(aes(x=variable, y=value, color=variable), alpha=0.15, size=0.5) +
-  theme_elsasserlab_screen(base_size = 16) +
   ylim(0,3) + 
   xlab('') +
   ylab('ChIP RPGC / Input') +
