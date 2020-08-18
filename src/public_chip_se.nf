@@ -40,7 +40,7 @@ process download {
 
     """
     prefetch ${run_id}
-    fastq-dump --outdir . --skip-technical --readids --read-filter pass --dumpbase --clip `srapath ${run_id}` -N 10000 -X 20000 --gzip
+    fastq-dump --outdir . --skip-technical --readids --read-filter pass --dumpbase --clip `srapath ${run_id}` --gzip
 
     mv *.fastq.gz ${file_descriptor}.fastq.gz
    
